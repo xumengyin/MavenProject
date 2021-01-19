@@ -1,0 +1,49 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+    <display-name>Archetype Created Web Application</display-name>
+
+    <servlet>
+        <servlet-name>servlet2</servlet-name>
+        <servlet-class>com.xu.serveLet.Servlet2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>form</servlet-name>
+        <servlet-class>com.xu.serveLet.FormServelet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>flash</servlet-name>
+        <servlet-class>com.xu.serveLet.FlashServeLet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>hello</servlet-name>
+        <servlet-class>com.xu.serveLet.HelloServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>resResponse</servlet-name>
+        <servlet-class>com.xu.serveLet.ReqAndResServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>hello</servlet-name>
+        <url-pattern>/root</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>flash</servlet-name>
+        <url-pattern>/flash</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>form</servlet-name>
+        <url-pattern>/form</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>resResponse</servlet-name>
+        <url-pattern>/res</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet2</servlet-name>
+        <url-pattern>/formad</url-pattern>
+    </servlet-mapping>
+</web-app>
