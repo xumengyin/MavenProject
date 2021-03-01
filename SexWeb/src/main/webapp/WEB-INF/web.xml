@@ -10,6 +10,10 @@
         <servlet-class>com.xu.serveLet.Servlet2</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>cookie</servlet-name>
+        <servlet-class>com.xu.serveLet.TestCookieServet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>form</servlet-name>
         <servlet-class>com.xu.serveLet.FormServelet</servlet-class>
     </servlet>
@@ -26,6 +30,10 @@
         <servlet-class>com.xu.serveLet.ReqAndResServlet</servlet-class>
     </servlet>
     <servlet-mapping>
+        <servlet-name>cookie</servlet-name>
+        <url-pattern>/cookie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/root</url-pattern>
     </servlet-mapping>
@@ -35,7 +43,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>form</servlet-name>
-        <url-pattern>/form</url-pattern>
+        <url-pattern>/formSuccess</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>resResponse</servlet-name>

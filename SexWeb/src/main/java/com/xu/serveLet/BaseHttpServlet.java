@@ -11,14 +11,20 @@ public abstract class BaseHttpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        todo(req, resp);
+        finxChart(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        todo(req, resp);
+        finxChart(req, resp);
     }
 
+    public void finxChart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        resp.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8");
+        todo(req, resp);
+    }
     public abstract void todo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
 
 }

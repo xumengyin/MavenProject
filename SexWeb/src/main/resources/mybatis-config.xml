@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    
+    
+    <properties resource="db.properties">
+
+
+
+    </properties>
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+        <setting name="logPrefix" value="xuxu"/>
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+<!--    每一个在包 domain.blog 中的 Java Bean，在没有注解的情况下，
+会使用 Bean 的首字母小写的非限定类名来作为它的别名。 比如 domain.blog.Author 的别名为 author,；若有注解，则别名为其注解值-->
+    <typeAliases>
+        <package name="com.xu.pojo"/>
+    </typeAliases>
+    <plugins>
+        <plugin interceptor="com.xu.mybatis.intercepter.SqlInterceptor">
+            <property name="sqlP" value="100"/>
+        </plugin>
+        <plugin interceptor="com.xu.mybatis.intercepter.ResultMapInterceptor">
+            <property name="resultMap" value="120"/>
+        </plugin>
+    </plugins>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+<!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://localHost:3306/sex?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="111111"/>-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${jdbcUrl}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+<!--        <mapper class="com.xu.mybatis.mappers.VideoMapper"/>-->
+        <package name="com.xu.mybatis.mappers"/>
+<!--        <mapper resource="mapper/videoMapper.xml"/>-->
+    </mappers>
+</configuration>

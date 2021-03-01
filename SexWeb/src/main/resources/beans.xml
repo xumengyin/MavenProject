@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-init-method="init"
+       default-lazy-init="true">
+    <!--延迟初始化-->
+    <bean id="business" class="com.xu.pojo.Buniness" p:id="2" p:name="test business"/>
+    <bean id="video6" class="com.xu.pojo.Video" lazy-init="true" scope="singleton"/>
+    <!--    作用域-->
+    <bean id="video5" parent="video3" scope="prototype">
+        <property name="author" value="video5 parent"/>
+    </bean>
+    <!--    初始化和销毁bean的回调init-method=   destroy-method-->
+    <bean id="video4" class="com.xu.pojo.Video" p:author="p author" init-method="init" destroy-method="destroy">
+    </bean>
+    <bean id="video3" class="com.xu.pojo.Video">
+        <constructor-arg name="name" value="cons"/>
+        <constructor-arg name="id" value="12"/>
+        <constructor-arg name="author" value="author"/>
+        <constructor-arg name="goal" value="goal"/>
+
+    </bean>
+    <bean id="video" class="com.xu.pojo.Video">
+        <property name="name" value="111"/>
+        <property name="goal" value="99"/>
+        <property name="author" value="xu"/>
+    </bean>
+    <bean id="video2" class="com.xu.pojo.Video">
+        <property name="name" value="gg"/>
+        <property name="goal" value="12"/>
+        <property name="author" value="meng"/>
+    </bean>
+
+    <bean id="play" class="com.xu.pojo.Player">
+        <property name="age" value="100"/>
+        <property name="name" value="发阿发"/>
+        <property name="videos">
+            <list>
+                <!--                <value type="com.xu.pojo.Player">-->
+                <!--                    -->
+                <!--                </value>-->
+                <ref bean="video"/>
+                <ref bean="video2"/>
+            </list>
+
+        </property>
+
+    </bean>
+</beans>

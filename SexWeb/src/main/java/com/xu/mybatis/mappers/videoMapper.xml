@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xu.mybatis.mappers.VideoMapper">
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
+    <select id="getVideos" resultType="com.xu.pojo.Video" resultMap="videoMap">
+        select *
+        from sex.videos
+    </select>
+    <select id="getVideosLimit" resultType="com.xu.pojo.Video" resultMap="videoMap" parameterType="map">
+        select *
+        from sex.videos limit #{start},#{size}
+    </select>
+
+
+    <select id="getPlayer" resultType="player" resultMap="videoMap2">
+        select p.id pid,p.name pname,p.age page,p.sex psex,v.id vid,v.video_name vname,v.author vauthor,v.goal vgoal from avplayer p,videos v
+        where p.id=v.player and p.id=#{id,javaType=int}
+    </select>
+
+    <select id="getPlayers" resultType="player" resultMap="videoMap2" parameterType="map" useCache="true">
+        select p.id pid,p.name pname,p.age page,p.sex psex,v.id vid,v.video_name vname,v.author vauthor,v.goal vgoal from avplayer p,videos v
+        <include refid="reusedSql"/>
+    </select>
+    <resultMap id="videoMap2" type="player">
+
+        <result column="pid" property="id"/>
+        <result column="pname" property="name"/>
+        <result column="psex" property="sex"/>
+        <result column="page" property="age"/>
+        <collection property="videos" ofType="video">
+            <result column="vname" property="name"/>
+            <result column="vid" property="id"/>
+            <result column="vauthor" property="author"/>
+            <result column="vgoal" property="goal"/>
+        </collection>
+
+
+
+    </resultMap>
+
+
+
+
+
+
+
+    <delete id="deleteVideo">
+        delete from videos where id =#{id};
+    </delete>
+    <!--    <update id="updateVideo">-->
+    <!--        update videos set -->
+    <!--<foreach collection=""-->
+    <!--    </update>-->
+
+    <resultMap id="videoMap" type="video">
+
+        <result column="video_name" property="name"/>
+
+    </resultMap>
+
+
+    <sql id="reusedSql">
+        <where>
+            p.id=v.player
+            <if test="age!=null">
+                and p.age=#{age}
+            </if>
+            <if test="sex!=null">
+                and p.sex=#{sex}
+            </if>
+        </where>
+    </sql>
+</mapper>
