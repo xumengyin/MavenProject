@@ -24,7 +24,10 @@ public class Utils {
     }
 
     public static SqlSession getSession() {
-        return sqlSessionFactory.openSession(true);
+        return getSession(true);
+    }
+    public static SqlSession getSession(boolean auto) {
+        return sqlSessionFactory.openSession(auto);
     }
 
     public static void close(SqlSession session)

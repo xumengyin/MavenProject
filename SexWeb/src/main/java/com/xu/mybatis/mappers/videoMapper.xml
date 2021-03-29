@@ -17,6 +17,9 @@
         from sex.videos limit #{start},#{size}
     </select>
 
+    <insert id="insetData" parameterType="map">
+        insert into sex.videos_file (name,path) values (#{name},#{path})
+    </insert>
 
     <select id="getPlayer" resultType="player" resultMap="videoMap2">
         select p.id pid,p.name pname,p.age page,p.sex psex,v.id vid,v.video_name vname,v.author vauthor,v.goal vgoal from avplayer p,videos v

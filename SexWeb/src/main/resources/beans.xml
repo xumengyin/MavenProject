@@ -6,7 +6,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd"
        default-init-method="init"
+       default-destroy-method="destroy"
        default-lazy-init="true">
+
+    <bean class="com.xu.spring.MyBeanFactoryPostProcessor"/>
+    <bean class="com.xu.spring.MyBeanPostProcessorHigh"/>
+    <bean class="com.xu.spring.MyBeanPostProcessorLow"/>
     <!--延迟初始化-->
     <bean id="business" class="com.xu.pojo.Buniness" p:id="2" p:name="test business"/>
     <bean id="video6" class="com.xu.pojo.Video" lazy-init="true" scope="singleton"/>

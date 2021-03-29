@@ -22,4 +22,7 @@ public interface VideoMapper {
     Player getPlayer(@Param("id") int id);
 
     List<Player> getPlayers(Map<String,String> map);
+
+
+    int insetData(@Param("name")String name,@Param("path") String path);
 }
