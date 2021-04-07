@@ -1,5 +1,7 @@
+
 import com.xu.mybatis.mappers.VideoMapper;
 import com.xu.mybatis.util.Log;
+import com.xu.mybatis.util.RediusUtil;
 import com.xu.mybatis.util.Utils;
 import com.xu.pojo.Buniness;
 import com.xu.pojo.Player;
@@ -8,6 +10,7 @@ import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import redis.clients.jedis.Transaction;
 
 import java.io.File;
 import java.sql.Connection;
@@ -32,8 +35,8 @@ public class FrameworkTest {
     public static HashMap<String, List<String>> cacheFile = new HashMap();
 
     static {
-        paths.add("E:\\资料文档2");
-        paths.add("E:\\资料文档");
+        // paths.add("E:\\资料文档2");
+        //paths.add("E:\\资料文档");
     }
 
 
@@ -42,31 +45,39 @@ public class FrameworkTest {
     @Test
     public void fileFinder() {
 
-        long time1=System.currentTimeMillis();
-        Log.d("start time:"+time1+"wait.......");
+        long time1 = System.currentTimeMillis();
+        Log.d("start time:" + time1 + "wait.......");
         File rootFile;
         for (String path : paths) {
             rootFile = new File(path);
             //stack.add(rootFile);
             scanFile(rootFile);
         }
-        long time2=System.currentTimeMillis();
-        Log.d("scan over-----:"+((time2-time1)/1000));
-        SqlSession session = Utils.getSession(false);
-        VideoMapper mapper = session.getMapper(VideoMapper.class);
+        long time2 = System.currentTimeMillis();
+        Transaction transaction = RediusUtil.openTransaction();
+        Log.d("scan over-----:" + ((time2 - time1) / 1000));
+        //不再使用mysql处理 用redius处理
+//        SqlSession session = Utils.getSession(false);
+//        VideoMapper mapper = session.getMapper(VideoMapper.class);
+        String[] pathList;
         for (Map.Entry<String, List<String>> stringListEntry : cacheFile.entrySet()) {
             //Log.d("file name:"+stringListEntry.getKey()+"-----"+stringListEntry.getValue().toString());
-            for (String s : stringListEntry.getValue()) {
-                mapper.insetData(stringListEntry.getKey(), s);
-            }
+//            for (String s : stringListEntry.getValue()) {
+//                //mapper.insetData(stringListEntry.getKey(), s);
+//
+//            }
+            pathList = new String[stringListEntry.getValue().size()];
+            transaction.lpush(stringListEntry.getKey(), stringListEntry.getValue().toArray(pathList));
         }
-        session.commit();
-        long time3=System.currentTimeMillis();
-        Log.d("insert over-----:"+((time3-time2)/1000));
+        // session.commit();
+        RediusUtil.execTransaction(transaction);
+        long time3 = System.currentTimeMillis();
+        Log.d("insert over-----:" + ((time3 - time2) / 1000));
         Log.d("files nums:" + cacheFile.size());
 
 
     }
+
     public void scanFile(File root) {
         File[] fs = root.listFiles();
         if (fs != null) {
@@ -86,29 +97,45 @@ public class FrameworkTest {
         }
 
     }
+
+    @Test
+    public void testRedis() {
+        //存储普通对象
+        // RediusUtil.set("aaa","bbb");
+
+        //存hash对象
+        Map<String, String> map = new HashMap<>();
+        map.put("111", "aaa");
+        map.put("222", "bbb");
+        map.put("333", "ccc");
+        RediusUtil.hmset("ddd", map, 1);
+//        RediusUtil.listen();
+    }
+
     Timer timer;
     TimerTask task;
-    private void cancel()
-    {
-        if (task!=null) {
+
+    private void cancel() {
+        if (task != null) {
             task.cancel();
         }
-        if (timer!=null) {
+        if (timer != null) {
             timer.cancel();
         }
     }
-    private void timeCount()
-    {
+
+    private void timeCount() {
         cancel();
-        timer =new Timer();
-        task=new TimerTask() {
+        timer = new Timer();
+        task = new TimerTask() {
             @Override
             public void run() {
                 Log.d("time ");
             }
         };
-        timer.schedule(task,1000,1000);
+        timer.schedule(task, 1000, 1000);
     }
+
     /**
      * 测试各种感知接口
      */

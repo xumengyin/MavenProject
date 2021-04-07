@@ -4,6 +4,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,5 +36,9 @@ public class Utils {
         if (session!=null) {
             session.close();
         }
+    }
+    public static ClassPathXmlApplicationContext getSpringContext(String path) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(path);
+        return context;
     }
 }

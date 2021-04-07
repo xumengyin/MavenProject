@@ -11,7 +11,6 @@
     <modules>
         <module>javaweb</module>
         <module>SexWeb</module>
-        <module>webSocket</module>
         <module>annotationMavenTest</module>
         <module>springMvcBuild</module>
     </modules>
